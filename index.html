@@ -3,1283 +3,552 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Advanced Computer Networks Comprehensive Examination</title>
+    <title>Computer Networking Examination</title>
     <style>
       :root {
-        --primary: #1e3a8a;
-        --secondary: #0d9488;
-        --bg: #f8fafc;
-        --card-bg: #ffffff;
-        --text: #334155;
-        --border: #e2e8f0;
-        --correct: #16a34a;
-        --incorrect: #dc2626;
+        --primary-color: #2b6cb0;
+        --secondary-color: #edf2f7;
+        --text-color: #2d3748;
+        --success-color: #38a169;
+        --error-color: #e53e3e;
       }
 
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
+        color: var(--text-color);
+        background-color: #f7fafc;
         margin: 0;
         padding: 20px;
       }
 
       .container {
-        max-width: 900px;
+        max-width: 800px;
         margin: 0 auto;
-        background: var(--card-bg);
+        background: white;
         padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
       h1 {
-        color: var(--primary);
-        border-bottom: 3px solid var(--primary);
-        padding-bottom: 10px;
-        margin-top: 0;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 10px;
       }
 
       .instructions {
-        background-color: #eff6ff;
-        border-left: 4px solid var(--primary);
-        padding: 15px;
+        text-align: center;
+        color: #718096;
         margin-bottom: 30px;
-        border-radius: 0 8px 8px 0;
+        font-style: italic;
       }
 
       .section-title {
-        color: var(--secondary);
-        border-bottom: 2px solid var(--border);
-        padding-bottom: 5px;
-        margin-top: 40px;
-        font-size: 1.4rem;
+        background-color: var(--secondary-color);
+        padding: 10px 15px;
+        border-left: 5px solid var(--primary-color);
+        font-weight: bold;
+        margin-top: 30px;
       }
 
-      .question-card {
+      .question-block {
         margin-bottom: 25px;
-        padding: 20px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        background-color: #fafafa;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .question-text {
         font-weight: 600;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
 
       .options-list {
-        list-style: none;
+        list-style-type: none;
         padding: 0;
         margin: 0;
       }
 
       .option-item {
-        margin-bottom: 10px;
-        display: flex;
-        align-items: flex-start;
+        margin-bottom: 8px;
+        padding: 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .option-item:hover {
+        background-color: #f8fafc;
       }
 
       .option-item input {
-        margin-top: 5px;
-        margin-right: 12px;
+        margin-right: 10px;
       }
 
-      .input-text {
+      .btn-submit {
+        display: block;
         width: 100%;
-        padding: 10px;
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        font-size: 1rem;
-        margin-top: 5px;
-      }
-
-      .btn {
-        background-color: var(--primary);
+        padding: 15px;
+        background-color: var(--primary-color);
         color: white;
         border: none;
-        padding: 12px 30px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 6px;
+        border-radius: 4px;
+        font-size: 18px;
+        font-weight: bold;
         cursor: pointer;
-        transition: background 0.2s;
-        display: block;
-        margin: 40px auto 0;
-      }
-
-      .btn:hover {
-        background-color: #1d4ed8;
-      }
-
-      #results {
         margin-top: 30px;
-        padding: 25px;
-        border-radius: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .btn-submit:hover {
+        background-color: #2b5a8f;
+      }
+
+      #result-box {
         display: none;
-      }
-
-      .score-display {
-        font-size: 1.5rem;
-        font-weight: bold;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #ebf8ff;
+        border: 1px solid #bee3f8;
+        border-radius: 6px;
         text-align: center;
-        margin-bottom: 20px;
       }
 
-      .feedback {
-        margin-top: 8px;
+      .score-text {
+        font-size: 24px;
         font-weight: bold;
-        font-size: 0.95rem;
+        color: var(--primary-color);
       }
-      .feedback.correct {
-        color: var(--correct);
+
+      .correct {
+        background-color: #c6f6d5 !important;
+        border-color: #38a169 !important;
       }
-      .feedback.incorrect {
-        color: var(--incorrect);
+
+      .incorrect {
+        background-color: #fed7d7 !important;
+        border-color: #e53e3e !important;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Advanced Computer Networks Master Examination</h1>
-      <div class="instructions">
-        <strong>Exam Parameters:</strong> 35 Items | Deep Analytical &
-        Definitional Rigor<br />
-        <strong>Instructions:</strong> Evaluate each technical query carefully
-        based strictly on the provided networking technical documentation. Click
-        "Submit Examination" at the bottom to calculate your metric.
-      </div>
+      <h1>Computer Networking Examination</h1>
+      <p class="instructions">
+        Directions: Read each question carefully and select the best answer
+        based on the provided text.
+      </p>
 
-      <form id="quizForm">
-        <!-- PART I -->
+      <form id="quiz-form">
+        <!-- Part 1 -->
         <div class="section-title">
-          Part I: Hardware Component Operational Analytics (Multiple Choice)
+          Part 1: Introduction & Components (Items 1–17)
         </div>
+        <div id="part1-questions"></div>
 
-        <div class="question-card">
-          <div class="question-text">
-            1. A hardware component is deployed to connect a node directly to a
-            network framework. It represents the baseline hardware layer
-            requirement to install networking software and handle physical
-            device attachment. What is this component?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q1" value="A" /> A) Access Point
-                (AP)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q1" value="B" /> B) Network Interface
-                Card (NIC)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q1" value="C" /> C) Hardware
-                Modem</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q1" value="D" /> D) LAN Bridge</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            2. You are troubleshooting a network legacy segment where signal
-            degradation occurs. You must select a component that can only be
-            used to regenerate signals between similar network segments. Which
-            device is restricted to this operational baseline?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q2" value="A" /> A) Multi-port
-                Switch</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q2" value="B" /> B) Repeater</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q2" value="C" /> C) Inter-network
-                Router</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q2" value="D" /> D) Data
-                Gateway</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            3. Which baseline networking device connects multiple computers
-            within a Local Area Network (LAN) and broadcasts incoming data
-            packets unconditionally to all connected devices on the
-            network?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q3" value="A" /> A) Switch</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q3" value="B" /> B) Router</label
-              >
-            </li>
-            <li class="option-item">
-              <label><input type="radio" name="q3" value="C" /> C) Hub</label>
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q3" value="D" /> D) Bridge</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            4. Contrast a local network Bridge with a Hub. What distinguishes a
-            Bridge in terms of its connection parameters?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q4" value="A" /> A) It routes packets
-                dynamically between local WAN networks.</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q4" value="B" /> B) It modulates
-                incoming telephone analog signals to binary data systems.</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q4" value="C" /> C) It builds
-                connections with other bridge networks that utilize the same
-                protocol.</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q4" value="D" /> D) It acts as a
-                dedicated central application server platform.</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            5. Inside a LAN infrastructure, an engineer must install a device
-            that connects multiple devices together and uses Media Access
-            Control (MAC) addresses to forward incoming data explicitly to the
-            correct destination device. Which hardware is required?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label><input type="radio" name="q5" value="A" /> A) Modem</label>
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q5" value="B" /> B) Repeater</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q5" value="C" /> C) Switch</label
-              >
-            </li>
-            <li class="option-item">
-              <label><input type="radio" name="q5" value="D" /> D) Hub</label>
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            6. A network deployment requires bridging completely different
-            networks together, specifically connecting an internal Local Area
-            Network (LAN) to a Wide Area Network (WAN) like the internet. Which
-            specialized device performs this inter-network mapping?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q6" value="A" /> A) Switch</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q6" value="B" /> B) Router</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q6" value="C" /> C) Access
-                Point</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q6" value="D" /> D) Storage
-                Array</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            7. To protect network perimeters, a specific hardware or software
-            utility monitors and filters incoming and outgoing data traffic
-            based explicitly on a configured set of predetermined security
-            rules. What is this component?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q7" value="A" /> A) Server
-                Gateway</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q7" value="B" /> B) Firewall</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q7" value="C" /> C) Signal
-                Repeater</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q7" value="D" /> D) Network Interface
-                Card</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            8. If an infrastructure needs to connect a computer station to send
-            or receive digital data over existing telephone or cable lines, what
-            device must modulate and demodulate these data signals?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q8" value="A" /> A) Access
-                Point</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q8" value="B" /> B) Data
-                Bridge</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q8" value="C" /> C) Switch
-                Engine</label
-              >
-            </li>
-            <li class="option-item">
-              <label><input type="radio" name="q8" value="D" /> D) Modem</label>
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            9. You are tasked with creating a wireless local area network (WLAN)
-            architecture to allow modern untethered devices to interface
-            seamlessly with an underlying wired network framework. What
-            component must be provisioned?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q9" value="A" /> A) Firewall
-                Appliance</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q9" value="B" /> B) File
-                Server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q9" value="C" /> C) Access Point (AP
-                or WAP)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q9" value="D" /> D) Network
-                Bridge</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- PART II -->
+        <!-- Part 2 -->
         <div class="section-title">
-          Part II: Scope and Classification Analytics (Multiple Choice)
+          Part 2: Network Types & Architecture (Items 18–35)
         </div>
+        <div id="part2-questions"></div>
 
-        <div class="question-card">
-          <div class="question-text">
-            10. An engineer is mapping a network centered tightly around an
-            individual person's workspace, spanning a limited range of only a
-            few meters. What classification does this network fall under?[cite:
-            2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q10" value="A" /> A) Storage Area
-                Network (SAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q10" value="B" /> B) Personal Area
-                Network (PAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q10" value="C" /> C) Local Area
-                Network (LAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q10" value="D" /> D) Wireless LAN
-                (WLAN)</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            11. A network setup that connects computers and other terminal
-            hardware within a limited geographical area—such as a single home,
-            school environment, office facility, or closely positioned group of
-            structures—is technically classified as a:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q11" value="A" /> A) Metropolitan
-                Area Network (MAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q11" value="B" /> B) Wide Area
-                Network (WAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q11" value="C" /> C) Local Area
-                Network (LAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q11" value="D" /> D) Storage Area
-                Network (SAN)</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            12. By literal documentation definition, a Wireless Local Area
-            Network (WLAN) must possess at minimum how many devices utilizing
-            wireless communication paths to form its local footprint?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12" value="A" /> A) At least one
-                device</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12" value="B" /> B) At least two
-                devices</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12" value="C" /> C) More than five
-                devices</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12" value="D" /> D) An infinite pool
-                coordinated by mainframes</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            13. A regional infrastructure connects several separate corporate
-            LAN systems across an entire city to construct a larger unified
-            topology. What is this city-wide structural system?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12_2" value="A" /> A) Wide Area
-                Network (WAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12_2" value="B" /> B) Storage Area
-                Network (SAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12_2" value="C" /> C) Personal Area
-                Network (PAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q12_2" value="D" /> D) Metropolitan
-                Area Network (MAN)</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            14. A massive network topology is not limited to a single location,
-            but instead spans across a large geographical expanse such as entire
-            states or multiple countries via telephone lines, fiber optic
-            cables, or satellite links. Identify this network range:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q13" value="A" /> A) Metropolitan
-                Area Network (MAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q13" value="B" /> B) Wide Area
-                Network (WAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q13" value="C" /> C) Local Area
-                Network (LAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q13" value="D" /> D) Wireless LAN
-                (WLAN)</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            15. What type of specialized, dedicated high-speed network
-            explicitly interconnects and presents shared pools of storage
-            hardware devices to multiple servers?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q14" value="A" /> A) Mainframe Area
-                Infrastructure (MAI)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q14" value="B" /> B) Storage Area
-                Network (SAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q14" value="C" /> C) Personal Area
-                Network (PAN)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q14" value="D" /> D) Wide Area
-                Network (WAN)</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            16. What term explicitly defines the physical and logical design of
-            software, hardware, protocols, and the media used for data
-            transmission?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q15" value="A" /> A) Network
-                Components Matrix</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q15" value="B" /> B) Network
-                Architecture</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q15" value="C" /> C) Internet
-                Protocol Suite</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q15" value="D" /> D) Server Topology
-                Configuration</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- PART III -->
-        <div class="section-title">
-          Part III: Structural and Functional Architecture (Multiple Choice)
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            17. In an enterprise system, centralized server nodes coordinate and
-            supply services to other terminal nodes on the network. The server
-            controls and provides access to resources like web pages, databases,
-            application software, and hardware. What architectural design is
-            this?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q16" value="A" /> A) Peer-to-Peer
-                network</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q16" value="B" /> B) Client/Server
-                network</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q16" value="C" /> C) Personal Area
-                Topology</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q16" value="D" /> D) High-Speed
-                Storage Pool Architecture</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            18. A network deployment links all participating computers directly
-            together with equal privilege and identical responsibilities for
-            sharing data files across the system without central coordination.
-            This model is known as a:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q17" value="A" /> A) Client/Server
-                network</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q17" value="B" /> B) Wide Area
-                Network</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q17" value="C" /> C) Peer-to-Peer
-                network</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q17" value="D" /> D) Storage Area
-                Network</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            19. According to the document, what standard internetworking
-            protocol suite must be used universally across the global system of
-            interconnected networks to define the Internet?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q18" value="A" /> A) MAC Address
-                Protocol</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q18" value="B" /> B) Peer-to-Peer
-                Equal Suite</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q18" value="C" /> C) Internet
-                Protocol (TCP/IP)</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q18" value="D" /> D) WLAN Core Router
-                Protocol</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            20. To maintain operational identity across the global world-wide
-            Internet superhighway system, every single individual computer must
-            be recognized by what unique marker?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q19" value="A" /> A) Unique IP
-                address</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q19" value="B" /> B) Central Server
-                Token</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q19" value="C" /> C) Local MAC
-                Address</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q19" value="D" /> D) Dedicated
-                Firewall Code</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- PART IV -->
-        <div class="section-title">
-          Part IV: Server Typology Functional Classification (Multiple Choice)
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            21. A computer system on a network is optimized specifically to host
-            accessible public or private websites. Under what core server
-            category classification does it fall?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q20" value="A" /> A) File
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q20" value="B" /> B) Database
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q20" value="C" /> C) Web
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q20" value="D" /> D) Application
-                server</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            22. If a server's primary network utility is designated strictly for
-            storing and sharing common files among local or remote client
-            devices, it is operating explicitly as a:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q21" value="A" /> A) Mail
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q21" value="B" /> B) Database
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q21" value="C" /> C) File
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q21" value="D" /> D) Application
-                server</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            23. A corporate network node hosts a system tasked exclusively with
-            organizing, structuring, and managing data sets for relational
-            queries. Which server functional type does this fulfill?[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q22" value="A" /> A) Application
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q22" value="B" /> B) Database
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q22" value="C" /> C) Mail
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q22" value="D" /> D) Web
-                server</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            24. An administrative unit deploys a specialized node to handle
-            employee electronic correspondence, message delivery, and routing.
-            This server profile is explicitly categorized as a:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q23" value="A" /> A) Web
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q23" value="B" /> B) Mail
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q23" value="C" /> C) File
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q23" value="D" /> D) Application
-                server</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            25. When a centralized network computer is utilized explicitly for
-            running enterprise software systems for connected nodes, its
-            designated functional classification is an:[cite: 2]
-          </div>
-          <ul class="options-list">
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q24" value="A" /> A) Application
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q24" value="B" /> B) Web
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q24" value="C" /> C) Database
-                server</label
-              >
-            </li>
-            <li class="option-item">
-              <label
-                ><input type="radio" name="q24" value="D" /> D) File
-                server</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- PART V -->
-        <div class="section-title">
-          Part V: Strict Document Definitional Synthesis (Fill-in-the-Blank)
-        </div>
-        <p style="font-size: 0.9rem; color: #666">
-          <em
-            >Note: For maximum rigor, text evaluation is case-insensitive but
-            requires exact spelling matching the document's parameters.</em
-          >
-        </p>
-
-        <div class="question-card">
-          <div class="question-text">
-            26. By definition, a computer network is a collection of
-            interconnected devices that communicate and ________ resources with
-            each other.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q25"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            27. The document defines the ________ as an information super
-            highway to access information over the web.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q26"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            28. Network components are defined as the major parts which are
-            needed to install the ________.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q27"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            29. Modems modulate and demodulate signals for data transmission
-            over phone lines, cable systems, or ________ links, enabling
-            internet access.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q28"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            30. A wireless LAN will typically have a Wi-Fi router or a wireless
-            ________ point for wireless devices.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q29"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            31. According to the document, a Metropolitan Area Network (MAN) is
-            an interconnection of network in a ________.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q30"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            32. Wide Area Network (WAN) spans over a large geographical area
-            through a telephone line, ________ optic cable or satellite
-            links.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q31"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            33. Networks can be characterized by their geographic range as well
-            as their ________.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q32"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            34. A server is broadly defined as a computer that provides services
-            and ________ to other devices on a network.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q33"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <div class="question-card">
-          <div class="question-text">
-            35. In a Client/Server network configuration, the server provides
-            access to resources such as web pages, databases, application
-            software and ________.[cite: 2]
-          </div>
-          <input
-            type="text"
-            name="q34"
-            class="input-text"
-            placeholder="Your answer..."
-          />
-        </div>
-
-        <button type="button" class="btn" onclick="evaluateExam()">
-          Submit Examination
+        <button type="button" class="btn-submit" onclick="gradeQuiz()">
+          Submit Exam
         </button>
       </form>
 
-      <div id="results">
-        <div class="score-display" id="scoreDisplay"></div>
-        <div id="detailedFeedback"></div>
+      <div id="result-box">
+        <h2>Exam Results</h2>
+        <p class="score-text" id="score-display"></p>
+        <p>
+          Review your answers below. Correct items are highlighted in green,
+          incorrect choices in red.
+        </p>
       </div>
     </div>
 
     <script>
-      const answerKey = {
-        q1: "B",
-        q2: "B",
-        q3: "C",
-        q4: "C",
-        q5: "C",
-        q6: "B",
-        q7: "B",
-        q8: "D",
-        q9: "C",
-        q10: "B",
-        q11: "C",
-        q12: "B",
-        q12_2: "D",
-        q13: "B",
-        q14: "B",
-        q15: "B",
-        q16: "B",
-        q17: "C",
-        q18: "C",
-        q19: "A",
-        q20: "C",
-        q21: "C",
-        q22: "B",
-        q23: "B",
-        q24: "A",
-        // Fill-in-the-blank targets (processed as clean strings)
-        q25: "share",
-        q26: "internet",
-        q27: "software",
-        q28: "satellite",
-        q29: "access",
-        q30: "city",
-        q31: "fiber",
-        q32: "purpose",
-        q33: "resources",
-        q34: "hardware",
-      };
+      // Database containing all 35 exam items generated from the source document[cite: 1]
+      const quizData = [
+        {
+          id: 1,
+          q: "What is a collection of interconnected devices that communicate and share resources with each other?",
+          a: [
+            "Operating System",
+            "Computer network",
+            "Central Processing Unit",
+            "Storage device",
+          ],
+          correct: 1,
+        },
+        {
+          id: 2,
+          q: "Which term is explicitly defined as a group of interconnected devices that communicate and share resources?",
+          a: ["Client", "Network", "Server", "Protocol"],
+          correct: 1,
+        },
+        {
+          id: 3,
+          q: "What is defined as an information super highway to access information over the web?",
+          a: [
+            "Internet",
+            "Wide Area Network",
+            "Local Area Network",
+            "Personal Area Network",
+          ],
+          correct: 0,
+        },
+        {
+          id: 4,
+          q: "The Internet is a world-wide global system of interconnected __________.",
+          a: [
+            "Storage area networks",
+            "Computer networks",
+            "Peer-to-peer networks",
+            "Personal workspaces",
+          ],
+          correct: 1,
+        },
+        {
+          id: 5,
+          q: "Which standard protocol does the Internet use?",
+          a: ["HTTP/FTP", "SMTP/POP3", "TCP/IP", "MAC/IP"],
+          correct: 2,
+        },
+        {
+          id: 6,
+          q: "Every computer on the internet is identified by what unique feature?",
+          a: ["MAC address", "IP address", "Network name", "Hub ID"],
+          correct: 1,
+        },
+        {
+          id: 7,
+          q: "What are the major parts which are needed to install the software and are essential for designing, implementing, and managing networks effectively?",
+          a: [
+            "Network architectures",
+            "Network components",
+            "Peer-to-peer systems",
+            "Server applications",
+          ],
+          correct: 1,
+        },
+        {
+          id: 8,
+          q: "Which hardware components connect a computer or other device to a network?",
+          a: [
+            "Network Interface Cards (NICs)",
+            "Repeaters",
+            "Bridges",
+            "Modems",
+          ],
+          correct: 0,
+        },
+        {
+          id: 9,
+          q: "What device can only be used to regenerate signals between similar network segments?",
+          a: ["Router", "Switch", "Repeater", "Hub"],
+          correct: 2,
+        },
+        {
+          id: 10,
+          q: "Which basic networking devices connect multiple computers in a LAN and broadcast data packets to all devices on the network?",
+          a: ["Bridges", "Routers", "Firewalls", "Hubs"],
+          correct: 3,
+        },
+        {
+          id: 11,
+          q: "What is a device that builds the connection with other bridge networks which use the same protocol?",
+          a: ["Switch", "Bridges", "Access Point", "Repeater"],
+          correct: 1,
+        },
+        {
+          id: 12,
+          q: "Which devices connect multiple devices within a LAN and use MAC addresses to forward data to the correct device?",
+          a: ["Hub", "Switch", "Router", "Modem"],
+          correct: 1,
+        },
+        {
+          id: 13,
+          q: "What devices connect different networks, typically a LAN to a WAN like the internet?",
+          a: ["Router", "Access Point", "Bridge", "Repeater"],
+          correct: 0,
+        },
+        {
+          id: 14,
+          q: "What monitors and filters incoming and outgoing traffic based on a set of predetermined security rules, allowing legitimate data to pass through while blocking unauthorized or malicious activity?",
+          a: ["Modem", "Switch", "Firewall", "Server"],
+          correct: 2,
+        },
+        {
+          id: 15,
+          q: "What is a computer that provides services and resources to other devices on a network, and has types categorized by their function?",
+          a: ["Client", "Server", "Hub", "Bridge"],
+          correct: 1,
+        },
+        {
+          id: 16,
+          q: "What device enables a computer to send or receive data over telephone or cable lines by modulating and demodulating signals?",
+          a: ["Access Point", "Switch", "Router", "Modem"],
+          correct: 3,
+        },
+        {
+          id: 17,
+          q: "Which devices create a wireless local area network (WLAN), allowing wireless devices to connect to a wired network?",
+          a: ["Access Point (AP or WAP)", "Hub", "Repeater", "Firewall"],
+          correct: 0,
+        },
+        {
+          id: 18,
+          q: "What can characterize computer networks besides their purpose?",
+          a: [
+            "Their software compatibility",
+            "Their geographic range",
+            "Their processing speed",
+            "Their manufacturing brand",
+          ],
+          correct: 1,
+        },
+        {
+          id: 19,
+          q: "Which network is for interconnecting devices centered around an individual person's workspace, typically within a range of a few meters?",
+          a: [
+            "Local Area Network",
+            "Personal Area Network",
+            "Metropolitan Area Network",
+            "Storage Area Network",
+          ],
+          correct: 1,
+        },
+        {
+          id: 20,
+          q: "A network that connects computers and other devices within a limited geographical area such as a home, school, office building, or closely positioned group of buildings is a:",
+          a: [
+            "Local Area Network",
+            "Wide Area Network",
+            "Metropolitan Area Network",
+            "Personal Area Network",
+          ],
+          correct: 0,
+        },
+        {
+          id: 21,
+          q: "How is a Wireless LAN (WLAN) explicitly defined?",
+          a: [
+            "Having at least two devices that use wireless communication to form a local area network",
+            "A network that connects a city through satellite links",
+            "A network centered around an individual person's workspace",
+            "A dedicated high-speed network for multiple servers",
+          ],
+          correct: 0,
+        },
+        {
+          id: 22,
+          q: "A wireless LAN typically has a wireless access point or what other device for wireless devices?",
+          a: ["Hub", "Wi-Fi router", "Firewall", "Bridge"],
+          correct: 1,
+        },
+        {
+          id: 23,
+          q: "What network covers a larger geographic area by interconnecting a different LAN to form a larger network?",
+          a: [
+            "Personal Area Network",
+            "Storage Area Network",
+            "Metropolitan Area Network",
+            "Peer-to-Peer Network",
+          ],
+          correct: 2,
+        },
+        {
+          id: 24,
+          q: "A Metropolitan Area Network (MAN) is an interconnection of network in a __________.",
+          a: ["Home", "Country", "Workspace", "City"],
+          correct: 3,
+        },
+        {
+          id: 25,
+          q: "What network extends over a large geographical area such as states or countries?",
+          a: [
+            "Local Area Network",
+            "Wide Area Network",
+            "Personal Area Network",
+            "Wireless LAN",
+          ],
+          correct: 1,
+        },
+        {
+          id: 26,
+          q: "A Wide Area Network (WAN) is not limited to a single location, but spans over a large geographical area through a telephone line, satellite links, or what other media?",
+          a: ["Fiber optic cable", "Coaxial cable", "Bluetooth", "Infrared"],
+          correct: 0,
+        },
+        {
+          id: 27,
+          q: "What is a specialized, dedicated high-speed network that interconnects and presents shared pools of storage devices to multiple servers?",
+          a: [
+            "Wide Area Network",
+            "Metropolitan Area Network",
+            "Storage Area Network",
+            "Client/Server network",
+          ],
+          correct: 2,
+        },
+        {
+          id: 28,
+          q: "What is defined as the physical and logical design of the software, hardware, protocols and media of the transmission of data?",
+          a: [
+            "Network Component",
+            "Network Architecture",
+            "Internet Protocol",
+            "Server Function",
+          ],
+          correct: 1,
+        },
+        {
+          id: 29,
+          q: "Which networks use central servers to coordinate and supply services to other nodes on the network?",
+          a: [
+            "Peer-to-Peer network",
+            "Client/Server network",
+            "Personal Area Network",
+            "Wireless LAN",
+          ],
+          correct: 1,
+        },
+        {
+          id: 30,
+          q: "In a Client/Server network, what provides access to resources such as web pages, databases, application software, and hardware?",
+          a: ["The client", "The peer", "The server", "The repeater"],
+          correct: 2,
+        },
+        {
+          id: 31,
+          q: "Which network features all computers directly linked together with equal privilege and responsibilities for sharing the data?",
+          a: [
+            "Client/Server network",
+            "Storage Area Network",
+            "Wide Area Network",
+            "Peer-to-Peer network",
+          ],
+          correct: 3,
+        },
+        {
+          id: 32,
+          q: "If a network connects a home, school, or office building, it falls under which category?",
+          a: ["WAN", "LAN", "MAN", "PAN"],
+          correct: 1,
+        },
+        {
+          id: 33,
+          q: "Web servers, file servers, database servers, mail servers, and application servers are all examples of categories of what component?",
+          a: ["Clients", "Routers", "Firewalls", "Servers"],
+          correct: 3,
+        },
+        {
+          id: 34,
+          q: "A network that connects devices within a range of a few meters around a person's workspace is known as a:",
+          a: ["SAN", "PAN", "LAN", "MAN"],
+          correct: 1,
+        },
+        {
+          id: 35,
+          q: "Which component builds connections with other networks using the same protocol?",
+          a: ["Router", "Bridges", "Gateway", "Modem"],
+          correct: 1,
+        },
+      ];
 
-      function evaluateExam() {
-        const form = document.getElementById("quizForm");
-        const formData = new FormData(form);
-        let score = 0;
-        const totalItems = Object.keys(answerKey).length;
+      // Function to render questions into the DOM dynamically
+      function generateQuiz() {
+        const part1Div = document.getElementById("part1-questions");
+        const part2Div = document.getElementById("part2-questions");
+        const letterOptions = ["A", "B", "C", "D"];
 
-        // Clear previous styles/feedback if any
-        const oldFeedback = document.querySelectorAll(".feedback");
-        oldFeedback.forEach((el) => el.remove());
+        quizData.forEach((item) => {
+          const qBlock = document.createElement("div");
+          qBlock.className = "question-block";
+          qBlock.id = `q-block-${item.id}`;
 
-        // Process all items
-        for (let key in answerKey) {
-          let userAnswer = formData.get(key);
-          let isCorrect = false;
+          const qText = document.createElement("div");
+          qText.className = "question-text";
+          qText.innerText = `${item.id}. ${item.q}`;
+          qBlock.appendChild(qText);
 
-          if (!userAnswer) {
-            // If it's a text input field, grab its value manually
-            const element = form.elements[key];
-            if (element && element.type === "text") {
-              userAnswer = element.value.trim().toLowerCase();
-              isCorrect = userAnswer === answerKey[key].toLowerCase();
-            }
+          const optionsList = document.createElement("ul");
+          optionsList.className = "options-list";
+
+          item.a.forEach((option, index) => {
+            const li = document.createElement("li");
+            li.className = "option-item";
+            li.id = `opt-${item.id}-${index}`;
+
+            const label = document.createElement("label");
+            label.style.cursor = "pointer";
+
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `question-${item.id}`;
+            input.value = index;
+
+            label.appendChild(input);
+            label.append(` ${letterOptions[index]}. ${option}`);
+            li.appendChild(label);
+            optionsList.appendChild(li);
+          });
+
+          qBlock.appendChild(optionsList);
+
+          if (item.id <= 17) {
+            part1Div.appendChild(qBlock);
           } else {
-            // Radio button processing
-            isCorrect = userAnswer === answerKey[key];
+            part2Div.appendChild(qBlock);
           }
-
-          // Find parent question block to inject inline verification
-          const inputElement = form.elements[key];
-          let card = null;
-          if (inputElement) {
-            card = inputElement.length
-              ? inputElement[0].closest(".question-card")
-              : inputElement.closest(".question-card");
-          }
-
-          if (card) {
-            const feedbackDiv = document.createElement("div");
-            feedbackDiv.className = `feedback ${isCorrect ? "correct" : "incorrect"}`;
-            feedbackDiv.innerHTML = isCorrect
-              ? `&#10004; Correct`
-              : `&#10008; Incorrect. True Document Parameter: "${answerKey[key]}"`;
-            card.appendChild(feedbackDiv);
-          }
-
-          if (isCorrect) score++;
-        }
-
-        // Render summary output panel
-        const resultsDiv = document.getElementById("results");
-        const scoreDisplay = document.getElementById("scoreDisplay");
-
-        resultsDiv.style.display = "block";
-        scoreDisplay.innerHTML = `Performance Yield: ${score} / ${totalItems} (${Math.round((score / totalItems) * 100)}%)`;
-
-        if (score === totalItems) {
-          resultsDiv.style.backgroundColor = "#dcfce7";
-          resultsDiv.style.color = "#14532d";
-        } else if (score >= totalItems * 0.7) {
-          resultsDiv.style.backgroundColor = "#fef9c3";
-          resultsDiv.style.color = "#713f12";
-        } else {
-          resultsDiv.style.backgroundColor = "#fee2e2";
-          resultsDiv.style.color = "#7f1d1d";
-        }
-
-        window.scrollTo({ top: resultsDiv.offsetTop, behavior: "smooth" });
+        });
       }
+
+      // Function to calculate scores and display visual feedback
+      function gradeQuiz() {
+        let score = 0;
+
+        quizData.forEach((item) => {
+          const selectedOpt = document.querySelector(
+            `input[name="question-${item.id}"]:checked`,
+          );
+
+          // Clear previous styles if graded multiple times
+          for (let i = 0; i < 4; i++) {
+            document.getElementById(`opt-${item.id}-${i}`).className =
+              "option-item";
+          }
+
+          // Always highlight the correct answer in green
+          document
+            .getElementById(`opt-${item.id}-${item.correct}`)
+            .classList.add("correct");
+
+          if (selectedOpt) {
+            const answerIndex = parseInt(selectedOpt.value);
+            if (answerIndex === item.correct) {
+              score++;
+            } else {
+              // Highlight selected wrong answer in red
+              document
+                .getElementById(`opt-${item.id}-${answerIndex}`)
+                .classList.add("incorrect");
+            }
+          }
+        });
+
+        // Display summary box and scroll to results
+        const resultBox = document.getElementById("result-box");
+        const scoreDisplay = document.getElementById("score-display");
+        scoreDisplay.innerText = `${score} / ${quizData.length} (${Math.round((score / quizData.length) * 100)}%)`;
+        resultBox.style.display = "block";
+        resultBox.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Run on script load
+      generateQuiz();
     </script>
   </body>
 </html>
